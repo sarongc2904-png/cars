@@ -1,4 +1,4 @@
-"utrabaja client";
+"use client";
 
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef } from "react";
