@@ -227,6 +227,8 @@ export type FillRevealOptions = {
   scroller: HTMLElement | null | undefined;
   start?: string;
   end?: string;
+  /** Per-line spacing inside the scrubbed timeline. */
+  stagger?: number;
 };
 
 /**
@@ -235,7 +237,13 @@ export type FillRevealOptions = {
  */
 export function createFillReveal(
   pieces: readonly HTMLElement[],
-  { trigger, scroller, start = "top bottom", end = "bottom center" }: FillRevealOptions,
+  {
+    trigger,
+    scroller,
+    start = "top bottom",
+    end = "bottom center",
+    stagger = FILL_STAGGER,
+  }: FillRevealOptions,
 ): gsap.core.Timeline | null {
   if (!pieces.length) return null;
 
@@ -252,7 +260,7 @@ export function createFillReveal(
     .fromTo(
       pieces,
       { "--fill": FILL_START },
-      { "--fill": FILL_END, duration: 1, ease: "none", stagger: FILL_STAGGER },
+      { "--fill": FILL_END, duration: 1, ease: "none", stagger },
       0,
     );
 }
