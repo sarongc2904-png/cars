@@ -376,3 +376,30 @@
     --fill: 111%;
   }
 }
+
+/* Oversized editorial headings: reserve room for ascenders/descenders and
+   negative tracking so the visual-line reveal never clips glyphs. */
+.reveal-fill-line {
+  overflow: visible;
+  padding: 0.08em 0.045em 0.18em;
+  margin: -0.08em -0.045em -0.18em;
+  line-height: inherit;
+}
+
+[data-fill-heading],
+.original-services-heading,
+.original-approach-top h2,
+.original-approach-story h3,
+.original-service-row h3,
+.original-builds-top em,
+.original-builds-bottom h2,
+.original-cta-copy h2,
+.original-footer-copy h2,
+.project-card__copy h2,
+.stock-card__copy h2,
+.contact-form-section h2,
+.page-footer__copy h2,
+.project-detail__intro > p {
+  overflow: visible;
+  text-wrap: balance;
+}
