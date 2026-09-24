@@ -1,4 +1,4 @@
-"use client";
+"utrabaja client";
 
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef } from "react";
@@ -798,7 +798,7 @@ export function ForgeOpeningTrack() {
           <Image
             className="forge-opening-fallback"
             src="/media/ca1704ba19e7015f94cf5ccb51d5f3db32fd3d96-2880x1868__66e6fc0f.jpg"
-            alt="Colección de vehículos de alto rendimiento"
+            alt="Vehículos preparados con enfoque técnico"
             fill
             preload
             sizes="100vw"
@@ -840,10 +840,10 @@ export function ForgeOpeningTrack() {
               ref={titleRef}
               className="forge-opening-title"
             >
-              <span className="forge-opening-title-word">Rendimiento</span>
+              <span className="forge-opening-title-word">Ingeniería</span>
               <br className="forge-opening-title-break" />{" "}
-              <span className="forge-opening-title-word">sin</span>{" "}
-              <span className="forge-opening-title-word">concesiones</span>
+              <span className="forge-opening-title-word">con</span>{" "}
+              <span className="forge-opening-title-word">propósito</span>
             </h1>
 
             <p
@@ -854,13 +854,13 @@ export function ForgeOpeningTrack() {
                 className="forge-opening-description-line"
                 style={{ display: "block", overflow: "hidden" }}
               >
-                Mecánica premium, tuning y puesta a punto,
+                Preparación automotriz, calibración y detalle,
               </span>
               <span
                 className="forge-opening-description-line"
                 style={{ display: "block", overflow: "hidden" }}
               >
-                ejecutados con precisión de taller.
+                pensados para transformar cada kilómetro.
               </span>
             </p>
           </div>
@@ -901,15 +901,15 @@ export function ForgeOpeningTrack() {
             <h2
               ref={introHeadingRef}
             >
-              <span className="forge-opening-intro-word">No</span>{" "}
-              <span className="forge-opening-intro-word">solo</span>{" "}
-              <span className="forge-opening-intro-word">sumamos</span>{" "}
-              <span className="forge-opening-intro-word">potencia</span>
+              <span className="forge-opening-intro-word">Cada</span>{" "}
+              <span className="forge-opening-intro-word">pieza</span>{" "}
+              <span className="forge-opening-intro-word">tiene</span>{" "}
+              <span className="forge-opening-intro-word">sentido</span>
               <br />
-              <span className="forge-opening-intro-word">afinamos</span>{" "}
-              <span className="forge-opening-intro-word">cómo</span>{" "}
+              <span className="forge-opening-intro-word">cuando</span>{" "}
+              <span className="forge-opening-intro-word">todo</span>{" "}
               <span className="forge-opening-intro-word">se</span>{" "}
-              <span className="forge-opening-intro-word">siente</span>
+              <span className="forge-opening-intro-word">en conjunto</span>
             </h2>
           </div>
         </div>
@@ -953,7 +953,7 @@ export function ForgeOpeningTrack() {
           <div className="original-approach-bg">
             <Image
               src="/media/fcdbdf14cba64b77f457e40c415f08366cd05043-2880x3600__66e6fc0f.jpg"
-              alt="Trabajo de precisión en un interior automotriz"
+              alt="Proceso de preparación automotriz de precisión"
               fill
               sizes="100vw"
             />
@@ -961,7 +961,7 @@ export function ForgeOpeningTrack() {
           <div className="original-approach-shade" />
 
           <div className="original-approach-top">
-            <h2>Del diagnóstico a la entrega</h2>
+            <h2>Del primer análisis al último ajuste</h2>
           </div>
 
           <div className="original-approach-bottom">
@@ -985,10 +985,10 @@ export function ForgeOpeningTrack() {
 
             <div className="original-approach-copy">
               <p>
-                Cada ajuste parte de una medición real. Motor, chasis,
-                estética y uso diario deben funcionar como un solo sistema.
+                No modificamos por modificar. Potencia, control, sonido,
+                estética y confiabilidad deben avanzar en la misma dirección.
               </p>
-              <AnimatedLink className="original-text-link" href="/contact">Agenda tu diagnóstico</AnimatedLink>
+              <AnimatedLink className="original-text-link" href="/contact">Cuéntanos tu proyecto</AnimatedLink>
             </div>
           </div>
         </section>
