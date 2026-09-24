@@ -273,7 +273,6 @@ export function ForgeOriginalSections() {
 
       const fillSelectors = [
         ".original-cta-copy h2",
-        ".original-builds-top em",
         ".original-builds-bottom h2",
         ".original-footer-copy h2",
         ".original-approach-top h2",
@@ -438,18 +437,70 @@ export function ForgeOriginalSections() {
       const buildsBottom = root.querySelector<HTMLElement>(".original-builds-bottom");
 
       if (builds && buildsTop) {
-        gsap.to(buildsTop, {
-          scale: 0.75,
-          autoAlpha: 0,
-          ease: "none",
-          scrollTrigger: {
-            scroller: scroller ?? undefined,
-            trigger: builds,
-            start: "top top",
-            end: "center top",
-            scrub: true,
-          },
-        });
+        const manifestoLines = gsap.utils.toArray<HTMLElement>(
+          ".original-builds-manifesto > span",
+          buildsTop,
+        );
+
+        if (manifestoLines.length) {
+          gsap.set(manifestoLines, {
+            autoAlpha: 0.22,
+            filter: "blur(9px)",
+            yPercent: 12,
+          });
+          gsap.set(manifestoLines[0], {
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            yPercent: 0,
+          });
+
+          const manifestoTimeline = gsap.timeline({
+            scrollTrigger: {
+              scroller: scroller ?? undefined,
+              trigger: builds,
+              start: "top 78%",
+              end: "55% top",
+              scrub: 0.45,
+            },
+          });
+
+          manifestoLines.forEach((line, index) => {
+            manifestoTimeline
+              .to(
+                line,
+                {
+                  autoAlpha: 1,
+                  filter: "blur(0px)",
+                  yPercent: 0,
+                  duration: 0.32,
+                  ease: "none",
+                },
+                index * 0.28,
+              )
+              .to(
+                line,
+                {
+                  autoAlpha: index === manifestoLines.length - 1 ? 1 : 0.2,
+                  filter: index === manifestoLines.length - 1 ? "blur(0px)" : "blur(8px)",
+                  duration: 0.34,
+                  ease: "none",
+                },
+                index * 0.28 + 0.34,
+              );
+          });
+
+          manifestoTimeline.to(
+            buildsTop,
+            {
+              yPercent: -18,
+              scale: 0.9,
+              autoAlpha: 0.18,
+              duration: 0.35,
+              ease: "none",
+            },
+            0.9,
+          );
+        }
       }
 
       if (builds && buildsCars && leftCar && mainCar && rightCar) {
@@ -682,7 +733,11 @@ export function ForgeOriginalSections() {
       <section className="original-builds-intro">
         <div className="original-builds-pattern" aria-hidden="true" />
         <div className="original-builds-top">
-          <em>Todo empieza</em>
+          <h2 className="original-builds-manifesto" aria-label="Para quienes no aceptan lo ordinario">
+            <span>Para quienes</span>
+            <span>no aceptan</span>
+            <span>lo ordinario</span>
+          </h2>
         </div>
 
         <div className="original-builds-cars">
