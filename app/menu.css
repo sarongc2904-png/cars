@@ -408,3 +408,31 @@
 .site-menu.is-open .menu-link__letters {
   display: block;
 }
+
+
+/* Compatibility reset: editorial.css contains the legacy menu implementation
+   (.menu-open/.menu-opening + .site-nav). The current React menu uses
+   .site-menu.is-open + .site-menu__list, so neutralize legacy clipping here. */
+.site-menu {
+  clip-path: none !important;
+  pointer-events: none;
+}
+
+.site-menu.is-open {
+  clip-path: none !important;
+  pointer-events: auto;
+}
+
+.site-menu::before {
+  display: none !important;
+}
+
+.site-menu.is-open .site-menu__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.site-menu.is-open .site-menu__meta {
+  position: relative;
+  z-index: 2;
+}
