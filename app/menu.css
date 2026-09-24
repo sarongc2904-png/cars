@@ -436,3 +436,66 @@
   position: relative;
   z-index: 2;
 }
+
+
+/* Centered editorial navigation, matching the reference composition. */
+.site-menu {
+  align-content: center;
+}
+
+.site-menu__inner {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.site-menu__list {
+  place-items: center;
+  gap: 0;
+}
+
+.menu-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: Editorial, Georgia, serif;
+  font-weight: 200;
+  letter-spacing: -0.045em;
+}
+
+.menu-link__letters {
+  font-family: Editorial, Georgia, serif;
+  font-size: clamp(54px, 10.5vh, 112px);
+  line-height: .86;
+  padding: .06em .08em .16em;
+  margin: 0;
+}
+
+.site-menu__meta {
+  position: absolute !important;
+  left: 50%;
+  bottom: clamp(26px, 5vh, 58px);
+  transform: translateX(-50%);
+  display: flex !important;
+  justify-content: center;
+  width: max-content;
+  max-width: 88vw;
+  padding: 0 !important;
+  gap: 24px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .site-menu__inner {
+    width: calc(100vw - 36px);
+  }
+  .menu-link__letters {
+    font-size: clamp(42px, 8.7vh, 72px);
+    line-height: .9;
+  }
+  .site-menu__meta {
+    gap: 15px;
+    font-size: 8px;
+  }
+}
