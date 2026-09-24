@@ -53,7 +53,7 @@ export function Header() {
         <span>AWAR</span>
       </Link>
 
-      <NavigationToggle revealed={revealed} />
+      <NavigationToggle revealed />
 
       <MenuOverlay links={LINKS} legal={LEGAL} />
 
