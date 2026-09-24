@@ -1,0 +1,19 @@
+AWAR — HOSTINGER DEPLOY
+
+Framework: Next.js 16.3.5
+Recommended Node.js: 22.x
+Install command: npm ci
+Build command: npm run build
+Start command: npm start
+
+HOSTINGER:
+Websites > Add Website > Deploy Web App > Upload your website files
+Upload this ZIP and let Hostinger detect Next.js.
+
+If Hostinger asks:
+Framework: Next.js
+Node.js: 22.x
+Build command: npm run build
+Start command: npm start
+
+No environment variables were detected as required by the source scan.

@@ -1,0 +1,378 @@
+/*
+ * Reusable controls: CTA button/link, tag chip, "back to top" and the form
+ * validation state.
+ *
+ * Transcribed from the Forge Automotive mirror (`sc-6f2721c4-0`, the component
+ * the mirror calls `Button`), with the `@property` registrations its
+ * conic-gradient ring depends on.
+ *
+ * -- How the label roll actually works (NOT two stacked text layers) ---------
+ *   .cta > span            { overflow: clip }                    /* the mask *\/
+ *   .cta > span span       { text-shadow: <bc5 60%> 0px -4em 0px } /* the ghost *\/
+ *   .cta:hover > span span { transform: translateY(4em) }         /* the roll  *\/
+ * The `text-shadow` paints a second copy of each glyph one line ABOVE the real
+ * one. On hover the real glyph translates down by `4em` — exactly the distance
+ * of the shadow copy — so the ghost lands where the glyph was, inside the
+ * clipped box. The illusion of a rolling label needs no duplicate DOM.
+ * ---------------------------------------------------------------------------
+ */
+
+@property --gradient-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-angle-offset { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@property --gradient-percent { syntax: "<percentage>"; initial-value: 5%; inherits: false; }
+@property --gradient-shine { syntax: "<color>"; initial-value: white; inherits: false; }
+
+@keyframes gradient-angle {
+  to { --gradient-angle: 360deg; }
+}
+
+.cta {
+  --ease: var(--easing-ease);
+  --dur: 0.5s;
+  --play-state: paused;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+  padding: var(--gap-sm) var(--gap-l);
+  border: 1px solid color-mix(in srgb, var(--brand-bc5) 10%, transparent);
+  background: color-mix(in srgb, var(--global-black) 10%, transparent);
+  color: var(--brand-bc5);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color var(--ease) var(--dur);
+}
+
+@media (min-width: 1024px) {
+  .cta { backdrop-filter: blur(4px); }
+}
+
+.cta--full { width: 100%; }
+
+.cta[disabled],
+.cta[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.cta[disabled] aside,
+.cta[aria-disabled="true"] aside {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+.cta:focus-visible {
+  outline: 1px dashed color-mix(in srgb, var(--brand-bc5) 60%, transparent);
+  outline-offset: 2px;
+  border-color: color-mix(in srgb, var(--brand-bc3) 40%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover { border-color: color-mix(in srgb, var(--brand-bc5) 40%, transparent); }
+  .cta:hover > span { opacity: 0.6; }
+  .cta:hover > span span { transform: translateY(4em); }
+}
+
+.cta > span {
+  display: block;
+  position: relative;
+  z-index: 1;
+  overflow: clip;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  transition:
+    opacity var(--ease) var(--dur),
+    letter-spacing var(--ease) var(--dur);
+}
+
+@media (min-width: 700px) {
+  .cta > span { font-size: var(--type-caption-lg); }
+}
+
+.cta > span span {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  /* The ghost copy, parked one line above. */
+  text-shadow: color-mix(in srgb, var(--brand-bc5) 60%, transparent) 0px -4em 0px;
+  transition: transform 0.5s var(--easing-bezzy2);
+}
+
+/*
+ * Per-character stagger: `transition-delay: 0.02s x index` for the first 25
+ * characters, so the roll travels through the label left to right.
+ */
+.cta > span span:nth-child(1) { transition-delay: 0s; }
+.cta > span span:nth-child(2) { transition-delay: 0.02s; }
+.cta > span span:nth-child(3) { transition-delay: 0.04s; }
+.cta > span span:nth-child(4) { transition-delay: 0.06s; }
+.cta > span span:nth-child(5) { transition-delay: 0.08s; }
+.cta > span span:nth-child(6) { transition-delay: 0.1s; }
+.cta > span span:nth-child(7) { transition-delay: 0.12s; }
+.cta > span span:nth-child(8) { transition-delay: 0.14s; }
+.cta > span span:nth-child(9) { transition-delay: 0.16s; }
+.cta > span span:nth-child(10) { transition-delay: 0.18s; }
+.cta > span span:nth-child(11) { transition-delay: 0.2s; }
+.cta > span span:nth-child(12) { transition-delay: 0.22s; }
+.cta > span span:nth-child(13) { transition-delay: 0.24s; }
+.cta > span span:nth-child(14) { transition-delay: 0.26s; }
+.cta > span span:nth-child(15) { transition-delay: 0.28s; }
+.cta > span span:nth-child(16) { transition-delay: 0.3s; }
+.cta > span span:nth-child(17) { transition-delay: 0.32s; }
+.cta > span span:nth-child(18) { transition-delay: 0.34s; }
+.cta > span span:nth-child(19) { transition-delay: 0.36s; }
+.cta > span span:nth-child(20) { transition-delay: 0.38s; }
+.cta > span span:nth-child(21) { transition-delay: 0.4s; }
+.cta > span span:nth-child(22) { transition-delay: 0.42s; }
+.cta > span span:nth-child(23) { transition-delay: 0.44s; }
+.cta > span span:nth-child(24) { transition-delay: 0.46s; }
+.cta > span span:nth-child(25) { transition-delay: 0.48s; }
+
+/*
+ * The travelling border light. `--play-state` is toggled by an
+ * IntersectionObserver in the component so the 4.5s animation only runs while
+ * the control is on screen.
+ */
+.cta aside {
+  --duration: 5s;
+  --stroke: 1px;
+  --offset-start: 25%;
+  --offset-end: 75%;
+  position: absolute;
+  inset: calc(var(--stroke) * -1);
+  z-index: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  padding: var(--stroke);
+  background: conic-gradient(
+    from calc(var(--gradient-angle) - var(--gradient-angle-offset)) at center,
+    transparent calc(var(--offset-start) - var(--gradient-percent) * 2),
+    color-mix(in srgb, var(--brand-bc5) 0%, transparent) calc(var(--offset-start) - var(--gradient-percent)),
+    white var(--offset-start),
+    color-mix(in srgb, var(--brand-bc5) 0%, transparent) calc(var(--offset-start) + var(--gradient-percent)),
+    transparent calc(var(--offset-start) + var(--gradient-percent) * 2),
+    transparent calc(var(--offset-end) - var(--gradient-percent) * 2),
+    color-mix(in srgb, var(--brand-bc5) 0%, transparent) calc(var(--offset-end) - var(--gradient-percent)),
+    white var(--offset-end),
+    color-mix(in srgb, var(--brand-bc5) 0%, transparent) calc(var(--offset-end) + var(--gradient-percent)),
+    transparent calc(var(--offset-end) + var(--gradient-percent) * 2)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transition:
+    opacity 0.5s var(--ease),
+    var(--gradient-angle-offset) var(--duration) var(--ease),
+    var(--gradient-percent) var(--duration) var(--ease),
+    var(--gradient-shine) var(--duration) var(--ease);
+  animation: gradient-angle 4.5s linear infinite var(--play-state);
+}
+
+/* -- Tag chip -------------------------------------------------------------- */
+
+/* Reference module `88664`: `({ text, isLight })` -> `<span>`. */
+.tag {
+  display: inline-grid;
+  place-items: center;
+  white-space: nowrap;
+  width: max-content;
+  padding: var(--gap-xs) var(--gap-s);
+  border: 1px solid color-mix(in srgb, var(--brand-bc5) 10%, transparent);
+  background: color-mix(in srgb, var(--brand-bc5) 10%, transparent);
+  color: var(--brand-bc5);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+}
+
+.tag--light {
+  background: var(--brand-bc5);
+  color: var(--brand-bc1);
+  border-color: transparent;
+}
+
+/* -- Back to top ----------------------------------------------------------- */
+
+/*
+ * Reference `BackToTop`: the label is split with `"Back to Top".split("")` into
+ * per-character spans (spaces become `\u00a0`), it is a `type="button"` with
+ * `aria-label`, and it scrolls with `lenis.scrollTo(0, { duration: 1.2 })`.
+ */
+.back-to-top {
+  display: inline-grid;
+  place-items: center;
+  padding: var(--gap-s) var(--gap-m);
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+}
+
+.back-to-top > span { display: block; overflow: clip; }
+
+.back-to-top > span span {
+  display: inline-block;
+  text-shadow: color-mix(in srgb, var(--brand-bc5) 60%, transparent) 0px -4em 0px;
+  transition: transform 0.5s var(--easing-bezzy2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back-to-top:hover > span span { transform: translateY(4em); }
+}
+
+.back-to-top > span span:nth-child(1) { transition-delay: 0s; }
+.back-to-top > span span:nth-child(2) { transition-delay: 0.02s; }
+.back-to-top > span span:nth-child(3) { transition-delay: 0.04s; }
+.back-to-top > span span:nth-child(4) { transition-delay: 0.06s; }
+.back-to-top > span span:nth-child(5) { transition-delay: 0.08s; }
+.back-to-top > span span:nth-child(6) { transition-delay: 0.1s; }
+.back-to-top > span span:nth-child(7) { transition-delay: 0.12s; }
+.back-to-top > span span:nth-child(8) { transition-delay: 0.14s; }
+.back-to-top > span span:nth-child(9) { transition-delay: 0.16s; }
+.back-to-top > span span:nth-child(10) { transition-delay: 0.18s; }
+.back-to-top > span span:nth-child(11) { transition-delay: 0.2s; }
+.back-to-top > span span:nth-child(12) { transition-delay: 0.22s; }
+
+/* -- Form field validation state ------------------------------------------- */
+
+/*
+ * The reference surfaces validation with a message next to the control and a
+ * highlighted border. `aria-invalid` is the hook, so the visual and the
+ * accessibility state can never disagree.
+ */
+.contact-field__error {
+  display: block;
+  margin-top: var(--gap-xs);
+  color: var(--feedback-negative);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 2;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.contact-field [aria-invalid="true"] { border-color: var(--feedback-negative); }
+
+.contact-field [aria-invalid="true"]:focus-visible {
+  outline: 1px dashed var(--feedback-negative);
+  outline-offset: 2px;
+}
+
+/* -- Card action rows (builds / stock listing + detail) -------------------- */
+
+.stock-card__actions,
+.stock-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-top: var(--gap-m);
+}
+
+.stock-detail__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-sm);
+  margin: var(--gap-m) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta > span span,
+  .back-to-top > span span { transition: none; }
+  .cta aside { animation: none; }
+}
+/* -- Text reveal primitives ------------------------------------------------- */
+
+/*
+ * Masks for `lib/motion/reveal.ts`. The piece rises from inside a clipped box,
+ * so the reveal reads as a mask rather than a fade — the mechanism the reference
+ * gets from `SplitText` plus `AnimatedHeading`.
+ *
+ * `overflow: clip` on an inline-block would cut the tail of descenders (the `g`
+ * of "Diagnóstico" and "Entrega"), so the mask reserves `0.24em` below the
+ * baseline and pulls it back with a matching negative margin. No layout shift.
+ */
+.reveal-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  padding-bottom: 0.24em;
+  margin-bottom: -0.24em;
+}
+
+.reveal-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-word {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/*
+ * Gradient fill wipe (`lib/motion/reveal.ts`, the reference's heading reveal).
+ *
+ * Measured verbatim on the live site: the text is transparent, a diagonal
+ * gradient is clipped to the glyphs, and the leading edge of the fill is a
+ * subtle red — white fills in BEHIND it, faint white (0.18) stays AHEAD of it.
+ * As `--fill` advances from -16 % to 111 %, the red edge travels with the white.
+ */
+/*
+ * Gradient fill wipe (`lib/motion/reveal.ts`, the reference's heading reveal).
+ *
+ * Measured verbatim on the live site: the text is transparent, a diagonal
+ * gradient is clipped to the glyphs, and the leading edge of the fill is a
+ * subtle red — white fills in BEHIND it, faint white (0.18) stays AHEAD of it.
+ * As `--fill` advances from -16 % to 111 %, the red edge travels with the white.
+ *
+ * Each `.reveal-fill-line` is one VISUAL line (a block), so multi-line headings
+ * sweep line by line, exactly like the reference's SplitText `lines`.
+ */
+.reveal-fill-line {
+  display: block;
+  --fill: -16%;
+  --fill-from: rgba(255, 255, 255, 0.18);
+  --fill-to: rgb(255, 255, 255);
+  --fill-accent: rgb(204, 75, 55);
+  color: transparent;
+  background-image: linear-gradient(
+    97deg,
+    var(--fill-to) 0%,
+    var(--fill-to) calc(var(--fill) - 8%),
+    var(--fill-accent) var(--fill),
+    var(--fill-from) calc(var(--fill) + 8%),
+    var(--fill-from) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: background-image;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fill-line {
+    --fill: 111%;
+  }
+}

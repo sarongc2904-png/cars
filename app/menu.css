@@ -1,0 +1,382 @@
+/*
+ * Navigation menu + Navigate/Close toggle.
+ *
+ * Transcribed from the Forge Automotive mirror:
+ *   `_next/static/chunks/3dca2icpnmf5w.js` modules `sc-cf9722b1-*` (header,
+ *     trigger, icon) — compiled output also present in the served markup.
+ *   `_next/static/chunks/1o6f75j2bh32_.js` (the lazily-loaded menu overlay
+ *     chunk, absent from the primary mirror and recovered from an identical
+ *     build; build identity proven by a matching SHA-256 of
+ *     `3dca2icpnmf5w.js` in both mirrors).
+ *
+ * rem values restated as px at the reference root (1rem = 10px); see the header
+ * of `app/scroll.css` for why this project keeps a 16px root.
+ */
+
+/* -- Header shell ---------------------------------------------------------- */
+
+/*
+ * Reference: `position: fixed; z-index: 1000; inset: 0 0 auto`.
+ * `view-transition-name: site-header` is declared in `app/scroll.css` so the
+ * header is painted above the page group during navigation.
+ */
+.site-header {
+  position: fixed;
+  z-index: 1000;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.site-header > * {
+  pointer-events: auto;
+}
+
+/* -- Navigate / Close trigger ---------------------------------------------- */
+
+/*
+ * Reference `sc-cf9722b1-3`:
+ *   cursor: pointer; display: flex; align-items: center; justify-content: flex-end;
+ *   gap: var(--gap-sm); overflow: clip;
+ *   padding: var(--gap-m) | var(--gap-l) >=420px | var(--gap-xl) >=1024px;
+ * The base `visibility: hidden; opacity: 0` is the pre-loader state, released by
+ * the loader (see `.menu-toggle.is-revealed`).
+ */
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--gap-sm);
+  overflow: clip;
+  padding: var(--gap-m);
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  border: 0;
+  transition: opacity 0.3s var(--easing-ease);
+}
+
+@media (min-width: 420px) {
+  .menu-toggle { padding: var(--gap-l); }
+}
+
+@media (min-width: 1024px) {
+  .menu-toggle { padding: var(--gap-xl); }
+}
+
+.menu-toggle.is-revealed {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu-toggle:focus-visible {
+  outline: 1px dashed color-mix(in srgb, var(--brand-bc5) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* Reference label: hidden below 1024px, caption typography from 1024px up. */
+.menu-toggle__label {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .menu-toggle__label {
+    display: grid;
+    position: relative;
+    overflow: clip;
+    height: 2em;               /* one caption line: fs 10px x line-height 2 */
+    font-size: 9px;           /* 0.9rem */
+    font-weight: 600;
+    line-height: 2;
+    letter-spacing: 3px;      /* 0.3rem */
+    text-transform: uppercase;
+    transition: opacity 0.3s var(--easing-ease);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Reference: font-size 1rem from the 700px tier upward. */
+  .menu-toggle__label { font-size: 10px; }
+}
+
+/*
+ * The vertical + skew label swap (reference: pure CSS, no GSAP).
+ *
+ * Measured on the live site: the OUTGOING label translates DOWN (+100%) with
+ * `skewY(3deg)`, the incoming one is parked ABOVE (-100%) with `skewY(3deg)` and
+ * drops to 0 with `skewY(0deg)`. Only the displaced label carries the skew.
+ *
+ *   slot A (Navigate)  closed: translateY(0%)    skewY(0)   -> open: translateY(100%)  skewY(3deg)
+ *   slot B (Close)     closed: translateY(-100%) skewY(3deg) -> open: translateY(0%)     skewY(0)
+ *
+ * Both spans share the SAME grid cell (`grid-area: 1 / 1`), so the box keeps the
+ * width of the widest label while the two labels stack on top of each other, and
+ * `overflow: clip` hides whichever one is displaced. (Absolute positioning would
+ * collapse the box to zero width and clip both labels — the bug this replaces.)
+ */
+.menu-toggle__label span {
+  grid-area: 1 / 1;
+  justify-self: end;
+  white-space: nowrap;
+  text-align: right;
+  transition: transform 1s var(--easing-bezzy3);
+}
+
+.menu-toggle__label span[data-slot="a"] { transform: translateY(0%) skewY(0deg); }
+.menu-toggle__label span[data-slot="b"] { transform: translateY(-100%) skewY(3deg); }
+.menu-toggle__label[data-open] span[data-slot="a"] { transform: translateY(100%) skewY(3deg); }
+.menu-toggle__label[data-open] span[data-slot="b"] { transform: translateY(0%) skewY(0deg); }
+
+/* Hover: label dims, and the icon's middle bar collapses. */
+@media (hover: hover) and (pointer: fine) {
+  .menu-toggle:hover .menu-toggle__label { opacity: 0.4; }
+  .menu-toggle:hover .menu-toggle__icon span:nth-child(2) { scale: 0.5 1; }
+}
+
+/* -- Trigger icon: three bars, NOT an SVG ---------------------------------- */
+
+/*
+ * Reference `sc-cf9722b1-4` (`<i>` with three `<span>` children):
+ *   --ease: var(--easing-ease); --speed: 0.3s;
+ *   --gap: 0.6rem (mobile) / 0.4rem (>=1024px);
+ *   width: 2.4rem; height: 2.3rem;  (>=1024px: 1.6rem x 1.5rem, margin-bottom 0.1rem)
+ *   rotate: 0deg; transition: rotate 1s var(--easing-bezzy2);
+ *   span { position: absolute; top: 50%; left: 0%; width: 100%; height: 1px;
+ *          background: var(--global-white);
+ *          transition: translate var(--speed) var(--ease), rotate var(--speed) var(--ease),
+ *                      scale var(--speed) var(--ease) }
+ *   span:nth-child(1) { rotate: 0deg; translate: 0 calc(-50% - var(--gap)) }
+ *   span:nth-child(2) { scale: 1 1;  translate: 0rem -50% }
+ *   span:nth-child(3) { rotate: 0deg; translate: 0 calc(-50% + var(--gap)) }
+ */
+.menu-toggle__icon {
+  --ease: var(--easing-ease);
+  --speed: 0.3s;
+  --gap: 6px;                 /* 0.6rem */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;                /* 2.4rem */
+  height: 23px;               /* 2.3rem */
+  rotate: 0deg;
+  transition: rotate 1s var(--easing-bezzy2);
+}
+
+@media (min-width: 1024px) {
+  .menu-toggle__icon {
+    width: 16px;              /* 1.6rem */
+    height: 15px;             /* 1.5rem */
+    margin-bottom: 1px;       /* 0.1rem */
+    --gap: 4px;               /* 0.4rem */
+  }
+}
+
+.menu-toggle__icon span {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 100%;
+  height: 1px;
+  background: var(--global-white);
+  transition:
+    translate var(--speed) var(--ease),
+    rotate var(--speed) var(--ease),
+    scale var(--speed) var(--ease);
+}
+
+.menu-toggle__icon span:nth-child(1) { rotate: 0deg; translate: 0 calc(-50% - var(--gap)); }
+.menu-toggle__icon span:nth-child(2) { scale: 1 1; translate: 0 -50%; }
+.menu-toggle__icon span:nth-child(3) { rotate: 0deg; translate: 0 calc(-50% + var(--gap)); }
+
+/*
+ * Open state — reference: `rotate: ${270 * !!isOpen}deg` on the container and
+ * -45deg / +45deg on the outer bars, with the middle bar collapsed.
+ */
+.menu-toggle__icon[data-open] { rotate: 270deg; }
+
+.menu-toggle__icon[data-open] span:nth-child(1) { rotate: -45deg; translate: 0 -50%; }
+
+.menu-toggle__icon[data-open] span:nth-child(2) { scale: 0 1; translate: 10px -50%; }
+
+.menu-toggle__icon[data-open] span:nth-child(3) { rotate: 45deg; translate: 0 -50%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle,
+  .menu-toggle__label span,
+  .menu-toggle__icon,
+  .menu-toggle__icon span {
+    transition: none;
+  }
+}
+
+/* -- Overlay --------------------------------------------------------------- */
+
+/*
+ * Reference overlay:
+ *   backdrop: position: fixed; inset: 0; z-index: 0;
+ *             background: var(--brand-bc3) = #410306;
+ *             ::after -> var(--global-black) at opacity 0.2;
+ *   closed -> hidden with a delayed exit
+ *             (opacity 0.3s ease-in-out 0.9s, visibility 0s linear 1.2s);
+ *   entrance: opacity 0<->1, scale 2<->1, filter blur(8px)<->0,
+ *             transition-delay 0.15s;
+ *   per-letter: transition-delay 0.02 x index, transform 0.5s var(--easing-bezzy2).
+ */
+.site-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  align-content: center;
+  overflow: clip;
+  background: var(--brand-bc3);
+  opacity: 0;
+  scale: 2;
+  filter: blur(8px);
+  visibility: hidden;
+  transition:
+    opacity 0.3s var(--easing-ease) 0.9s,
+    scale 0.3s var(--easing-ease) 0.9s,
+    filter 0.3s var(--easing-ease) 0.9s,
+    visibility 0s linear 1.2s;
+}
+
+.site-menu.is-open {
+  opacity: 1;
+  scale: 1;
+  filter: blur(0px);
+  visibility: visible;
+  transition:
+    opacity var(--time-m) var(--easing-ease) 0.15s,
+    scale var(--time-m) var(--easing-ease) 0.15s,
+    filter var(--time-m) var(--easing-ease) 0.15s,
+    visibility 0s linear 0s;
+}
+
+/* Reference `::after`: a black wash at 0.2 over the burgundy backdrop. */
+.site-menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--global-black);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.site-menu__inner {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--gap-l);
+}
+
+@media (min-width: 1024px) {
+  .site-menu__inner { padding: 0 var(--gap-xl); }
+}
+
+.site-menu__list {
+  display: grid;
+  gap: var(--gap-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-link {
+  --movement: 1.5em;
+  display: inline-block;
+  color: var(--brand-bc5);
+  text-decoration: none;
+  transition:
+    opacity 0.5s var(--easing-bezzy2),
+    color 0.3s var(--easing-ease);
+}
+
+/* Sibling dimming. Reference value is 0.2 for overlay links. */
+@media (hover: hover) and (pointer: fine) {
+  .site-menu__list:has(.menu-link:hover) .menu-link:not(:hover) { opacity: 0.2; }
+}
+
+.menu-link:hover { opacity: 1; }
+
+.menu-link:focus-visible {
+  outline: 1px dashed color-mix(in srgb, var(--brand-bc5) 60%, transparent);
+  outline-offset: 4px;
+}
+
+/* Per-letter roll — the same text-shadow ghost mechanism as the CTA button. */
+.menu-link__letters {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
+  font-size: clamp(28px, 7vh, 54px);
+  line-height: 1.05;
+}
+
+.menu-link__letter {
+  display: inline-block;
+  text-shadow: color-mix(in srgb, var(--brand-bc5) 60%, transparent) 0 calc(var(--movement) * -1) 0;
+  transform: translateY(0);
+  transition: transform 0.5s var(--easing-bezzy2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-link:hover .menu-link__letter { transform: translateY(var(--movement)); }
+}
+
+/*
+ * Per-letter stagger on entrance. The reference applies
+ * `transition-delay: 0.02 x index` to the first twelve letters.
+ */
+.menu-link__letter:nth-child(1) { transition-delay: 0s; }
+.menu-link__letter:nth-child(2) { transition-delay: 0.02s; }
+.menu-link__letter:nth-child(3) { transition-delay: 0.04s; }
+.menu-link__letter:nth-child(4) { transition-delay: 0.06s; }
+.menu-link__letter:nth-child(5) { transition-delay: 0.08s; }
+.menu-link__letter:nth-child(6) { transition-delay: 0.1s; }
+.menu-link__letter:nth-child(7) { transition-delay: 0.12s; }
+.menu-link__letter:nth-child(8) { transition-delay: 0.14s; }
+.menu-link__letter:nth-child(9) { transition-delay: 0.16s; }
+.menu-link__letter:nth-child(10) { transition-delay: 0.18s; }
+.menu-link__letter:nth-child(11) { transition-delay: 0.2s; }
+.menu-link__letter:nth-child(12) { transition-delay: 0.22s; }
+
+.site-menu__meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-m);
+  padding: var(--gap-l);
+  color: color-mix(in srgb, var(--brand-bc5) 60%, transparent);
+  font-size: 9px;              /* 0.9rem */
+  font-weight: 600;
+  letter-spacing: 3px;         /* 0.3rem */
+  text-transform: uppercase;
+}
+
+.site-menu__meta a { color: inherit; text-decoration: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .site-menu__meta:has(a:hover) a:not(:hover) { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-menu,
+  .site-menu.is-open {
+    scale: 1;
+    filter: none;
+    transition: opacity 0.001ms linear, visibility 0s linear;
+  }
+
+  .menu-link__letter {
+    transform: none !important;
+    transition: none;
+  }
+}
