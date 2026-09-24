@@ -1671,3 +1671,14 @@ body.menu-open { overflow: hidden; }
   line-height: 1.25;
   letter-spacing: .32em;
 }
+
+
+/* Loader CTA refinement */
+.forge-loader-enter {
+  font-size: clamp(18px, 1.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: .22em;
+  min-width: 180px;
+  justify-content: center;
+  padding-bottom: .75rem;
+}
