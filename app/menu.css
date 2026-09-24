@@ -380,3 +380,31 @@
     transition: none;
   }
 }
+
+/* Local reconstruction hardening: keep navigation visible and readable on every route. */
+.site-menu.is-open .site-menu__inner,
+.site-menu.is-open .site-menu__meta,
+.site-menu.is-open .site-menu__list,
+.site-menu.is-open .menu-link,
+.site-menu.is-open .menu-link__letters,
+.site-menu.is-open .menu-link__letter {
+  visibility: visible;
+  opacity: 1;
+}
+
+.site-menu.is-open .site-menu__inner,
+.site-menu.is-open .site-menu__meta {
+  display: block;
+}
+
+.site-menu.is-open .site-menu__list {
+  display: grid;
+}
+
+.site-menu.is-open .menu-link {
+  display: inline-block;
+}
+
+.site-menu.is-open .menu-link__letters {
+  display: block;
+}
