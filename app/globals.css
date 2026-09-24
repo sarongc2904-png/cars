@@ -651,11 +651,11 @@ body.menu-open { overflow: hidden; }
 .original-services-heading {
   grid-column: 1;
   margin: 0;
-  max-width: 980px;
+  max-width: min(1120px, 78vw);
   font-family: Editorial,serif;
-  font-size: clamp(3.4rem,6.4vw,7rem);
+  font-size: clamp(3.4rem,6.1vw,7rem);
   font-weight: 200;
-  line-height: .96;
+  line-height: 1.02;
   letter-spacing: -.038em;
   text-transform: none;
 }
@@ -747,7 +747,7 @@ body.menu-open { overflow: hidden; }
   margin: 0;
   font-family: Editorial,serif;
   font-size: clamp(4rem,7vw,7.6rem);
-  line-height: .9;
+  line-height: .98;
   font-weight: 200;
   letter-spacing: -.045em;
 }
