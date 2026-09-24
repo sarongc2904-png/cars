@@ -1682,3 +1682,35 @@ body.menu-open { overflow: hidden; }
   justify-content: center;
   padding-bottom: .75rem;
 }
+
+
+/* Builds manifesto: reference-style focus/blur text above the approaching cars. */
+.original-builds-top {
+  top: 10vh;
+}
+
+.original-builds-manifesto {
+  width: min(980px, 92vw);
+  margin: 0 auto;
+  font-family: Editorial, Georgia, serif;
+  font-size: clamp(64px, 8.8vw, 154px);
+  font-weight: 200;
+  line-height: .82;
+  letter-spacing: -.055em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.original-builds-manifesto > span {
+  display: block;
+  will-change: opacity, transform, filter;
+  padding: .03em .08em .12em;
+  margin: -.03em -.08em -.12em;
+}
+
+@media (max-width: 1023px) {
+  .original-builds-manifesto {
+    font-size: clamp(48px, 13vw, 88px);
+    line-height: .88;
+  }
+}
