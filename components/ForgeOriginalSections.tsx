@@ -257,16 +257,35 @@ export function ForgeOriginalSections() {
        * site reads consistently. These are the CTA bands, the builds intro and
        * the footer heading.
        */
+      // Large editorial headings use a measured visual-line sweep.
+      // The services statement is intentionally more separated so each line
+      // completes visibly before the next one starts, matching the reference.
+      const servicesStatement = root.querySelector<HTMLElement>(".original-services-heading");
+      if (servicesStatement) {
+        revealFillHeading(servicesStatement, {
+          trigger: servicesStatement,
+          scroller,
+          start: "top 88%",
+          end: "bottom 34%",
+          stagger: 0.42,
+        });
+      }
+
       const fillSelectors = [
         ".original-cta-copy h2",
         ".original-builds-top em",
         ".original-builds-bottom h2",
         ".original-footer-copy h2",
-        ".original-services-heading",
+        ".original-approach-top h2",
       ];
       fillSelectors.forEach((selector) => {
         gsap.utils.toArray<HTMLElement>(selector, root).forEach((heading) => {
-          revealFillHeading(heading, { trigger: heading, scroller });
+          revealFillHeading(heading, {
+            trigger: heading,
+            scroller,
+            start: "top 90%",
+            end: "bottom 38%",
+          });
         });
       });
       const servicesHero = root.querySelector<HTMLElement>(".original-services-hero");
