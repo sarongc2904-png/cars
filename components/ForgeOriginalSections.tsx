@@ -11,20 +11,20 @@ import { revealFillHeading } from "@/lib/motion/reveal";
 const approachItems = [
   {
     number: "01",
-    title: "Diagnóstico",
-    copy: "Antes de intervenir, medimos. Revisamos el estado mecánico, la forma de uso y el objetivo del auto para construir una ruta de trabajo clara.",
+    title: "Punto de partida",
+    copy: "Escuchamos lo que buscas, revisamos la base del vehículo y definimos prioridades. Cada proyecto empieza con una dirección clara, no con una lista de piezas.",
     image: "/media/96abbebcdb69e4b13c6ff0e23da7784139ad7da3-2880x2234__66e6fc0f.jpg",
   },
   {
     number: "02",
-    title: "Calibración",
-    copy: "Motor, frenos, suspensión y electrónica se afinan como un sistema. Cada ajuste debe sentirse en el volante y sostenerse bajo exigencia.",
+    title: "Desarrollo",
+    copy: "Construimos el conjunto paso a paso. Motor, chasis, electrónica y estética se combinan para conseguir una respuesta coherente en calle y bajo exigencia.",
     image: "/media/235781052416262c147da92950dc76d4d07b86ff-2880x2174__66e6fc0f.jpg",
   },
   {
     number: "03",
-    title: "Entrega",
-    copy: "Validamos temperaturas, respuesta y acabado antes de entregar. El resultado debe ser preciso, coherente y confiable desde el primer kilómetro.",
+    title: "Validación",
+    copy: "Probamos, corregimos y afinamos antes de cerrar el proyecto. La entrega final debe sentirse sólida, predecible y lista para disfrutarse desde el primer recorrido.",
     image: "/media/5831f81c6ffab5f5c73abf162d4b92c1a5a8c271-2880x2218__66e6fc0f.jpg",
   },
 ] as const;
@@ -32,32 +32,32 @@ const approachItems = [
 const services = [
   {
     title: "Performance",
-    copy: "Mejoras de admisión, escape, refrigeración y gestión electrónica definidas por mediciones, confiabilidad y el uso real del vehículo.",
+    copy: "Desarrollamos mejoras de flujo, refrigeración y gestión para obtener una respuesta más contundente sin sacrificar consistencia ni confiabilidad.",
     image: "/media/dc00a94ef171fe44f6a793a72a3fa9216dd48f15-1254x1254__375bb3c4.png",
   },
   {
     title: "Tuning",
-    copy: "Configuraciones personalizadas para respuesta, entrega de potencia y carácter. Nada de mapas genéricos: cada puesta a punto responde a un objetivo.",
+    copy: "La calibración se adapta al vehículo y a la forma en que quieres conducirlo. Respuesta, entrega y carácter se trabajan como una sola experiencia.",
     image: "/media/b98d6f2372e56bacbab8c532906ab79dd6a70581-1440x1800__375bb3c4.jpg",
   },
   {
     title: "Detailing",
-    copy: "Corrección, protección y acabado técnico para recuperar profundidad, textura y presencia sin ocultar el trabajo mecánico que hay debajo.",
+    copy: "Acabados de alto nivel para que la presentación esté a la altura del trabajo técnico: corrección, protección y detalle con criterio automotriz.",
     image: "/media/eba4e5fd9c980edaf3a36249253d9db5bdd4755c-1440x1800__375bb3c4.jpg",
   },
   {
     title: "Frenos",
-    copy: "Pastillas, discos, fluidos y líneas seleccionados para mejorar mordida, modulación y resistencia térmica con un tacto consistente.",
+    copy: "Mejoramos frenada, modulación y resistencia térmica con componentes seleccionados para ofrecer confianza vuelta tras vuelta y también en uso diario.",
     image: "/media/1afaca4dbc32c6ef8e332bb05c144f56bef61599-1440x1800__375bb3c4.jpg",
   },
   {
     title: "Suspensión",
-    copy: "Geometría, altura y amortiguación ajustadas para ganar control y confianza sin destruir la usabilidad diaria.",
+    copy: "Trabajamos altura, geometría y amortiguación para lograr más precisión y control manteniendo un comportamiento usable fuera del circuito.",
     image: "/media/e7030382683e44699afff394af92ae564c998004-1440x1800__375bb3c4.jpg",
   },
   {
     title: "Protección",
-    copy: "Recubrimientos y película de protección para conservar pintura, ópticas y superficies expuestas con mantenimiento sencillo y acabado limpio.",
+    copy: "Protegemos pintura, ópticas y superficies expuestas para conservar el acabado y facilitar el mantenimiento después de cada uso.",
     image: "/media/e2d7ada78adba232d267d00994ba320200322289-1440x1800__375bb3c4.jpg",
   },
 ] as const;
@@ -598,7 +598,7 @@ export function ForgeOriginalSections() {
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
                 </div>
-                <AnimatedLink className="original-text-link" href="/contact">Agenda tu diagnóstico</AnimatedLink>
+                <AnimatedLink className="original-text-link" href="/contact">Habla con el taller</AnimatedLink>
               </section>
             ))}
           </div>
@@ -619,10 +619,10 @@ export function ForgeOriginalSections() {
 
         <div className="original-services-hero-grid">
           <h2 className="original-services-heading">
-            La diferencia se siente antes de acelerar. Cada ajuste debe tener una razón.
+            No buscamos que el auto solo se vea distinto. Queremos que se sienta distinto.
           </h2>
           <div className="original-services-intro-copy">
-            <p>Integramos diagnóstico, performance, tuning y detailing en un proceso medible. El objetivo no es añadir piezas: es lograr un auto más preciso, consistente y personal.</p>
+            <p>Diseñamos cada preparación como un conjunto. Potencia, control, tacto y presencia se desarrollan alrededor del vehículo y de quien lo conduce.</p>
             <AnimatedLink className="original-text-link" href="/contact">Agenda tu diagnóstico</AnimatedLink>
           </div>
         </div>
@@ -640,7 +640,7 @@ export function ForgeOriginalSections() {
                   <h3>{service.title}</h3>
                 </hgroup>
                 <p>{service.copy}</p>
-                <AnimatedLink className="original-text-link" href="/contact">Solicita evaluación</AnimatedLink>
+                <AnimatedLink className="original-text-link" href="/contact">Explora esta mejora</AnimatedLink>
                 <div className="original-service-mobile-image">
                   <Image src={service.image} alt={`Servicio de ${service.title}`} fill sizes="100vw" />
                 </div>
@@ -663,7 +663,7 @@ export function ForgeOriginalSections() {
       <section className="original-builds-intro">
         <div className="original-builds-pattern" aria-hidden="true" />
         <div className="original-builds-top">
-          <em>La potencia</em>
+          <em>Todo empieza</em>
         </div>
 
         <div className="original-builds-cars">
@@ -694,8 +694,8 @@ export function ForgeOriginalSections() {
         </div>
 
         <div className="original-builds-bottom">
-          <h2>Empieza aquí</h2>
-          <p>Una preparación coherente equilibra potencia, control, temperatura, tacto y presencia.</p>
+          <h2>Con una idea clara</h2>
+          <p>El mejor proyecto no es el que acumula más piezas, sino el que consigue que cada modificación trabaje a favor del conjunto.</p>
         </div>
       </section>
 
@@ -710,9 +710,9 @@ export function ForgeOriginalSections() {
         </div>
         <div className="original-cta-gradient" />
         <div className="original-cta-copy">
-          <h2>Proyectos recientes</h2>
-          <p>Preparaciones construidas a partir de objetivos concretos, mediciones y una ejecución limpia.</p>
-          <AnimatedLink className="original-text-link" href="/builds">Conoce los proyectos</AnimatedLink>
+          <h2>Proyectos que hablan por sí solos</h2>
+          <p>Vehículos desarrollados con una intención definida: mejorar sensaciones, presencia y desempeño sin perder coherencia.</p>
+          <AnimatedLink className="original-text-link" href="/builds">Ver proyectos</AnimatedLink>
         </div>
       </section>
 
@@ -727,9 +727,9 @@ export function ForgeOriginalSections() {
         </div>
         <div className="original-cta-gradient strong" />
         <div className="original-cta-copy">
-          <h2>Agenda abierta</h2>
-          <p>Cuéntanos qué quieres mejorar. Empezamos con una evaluación técnica y una ruta de trabajo por etapas.</p>
-          <AnimatedLink className="original-text-link" href="/stock">Ver disponibles</AnimatedLink>
+          <h2>Tu siguiente proyecto puede empezar aquí</h2>
+          <p>Cuéntanos qué vehículo tienes y qué quieres sentir al conducirlo. A partir de ahí construimos una propuesta por etapas.</p>
+          <AnimatedLink className="original-text-link" href="/stock">Conocer opciones</AnimatedLink>
         </div>
       </section>
 
@@ -743,14 +743,14 @@ export function ForgeOriginalSections() {
           />
           <div className="original-footer-shade" />
           <div className="original-footer-copy">
-            <p>¿Listo para sentir la diferencia?</p>
-            <h2>Hazlo preciso</h2>
-            <AnimatedLink className="original-text-link" href="/contact">Inicia tu proyecto</AnimatedLink>
+            <p>¿Tienes un proyecto en mente?</p>
+            <h2>Hazlo tuyo</h2>
+            <AnimatedLink className="original-text-link" href="/contact">Empezar conversación</AnimatedLink>
           </div>
         </div>
         <div className="original-footer-bottom">
           <a className="brand footer-brand" href="#top"><span className="brand-mark" /><span>AWAR</span></a>
-          <span>© AWAR Motorworks</span>
+          <span>© AWAR Motorworks · Preparación automotriz</span>
           <AnimatedLink href="/contact">Contacto</AnimatedLink>
         </div>
       </footer>
