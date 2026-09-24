@@ -183,8 +183,28 @@ export function PageMotion({
         }
       });
 
-      gsap.utils.toArray<HTMLElement>("[data-fill-heading]", root).forEach((heading) => {
-        revealFillHeading(heading, { trigger: heading, scroller: scrollerOption });
+      const fillHeadings = new Set<HTMLElement>(
+        gsap.utils.toArray<HTMLElement>(
+          [
+            "[data-fill-heading]",
+            ".project-card__copy h2",
+            ".stock-card__copy h2",
+            ".contact-form-section h2",
+            ".project-detail__intro > p",
+            ".page-footer__copy h2",
+          ].join(","),
+          root,
+        ),
+      );
+
+      fillHeadings.forEach((heading) => {
+        revealFillHeading(heading, {
+          trigger: heading,
+          scroller: scrollerOption,
+          start: headingStart,
+          end: "bottom 38%",
+          stagger: 0.28,
+        });
       });
 
       gsap.utils.toArray<HTMLElement>("[data-copy-reveal]", root).forEach((element) => {
