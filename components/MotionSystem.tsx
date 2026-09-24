@@ -194,7 +194,7 @@ export function MotionSystem() {
             ))}
           </div>
           <button className="forge-loader-enter" type="button" disabled={!entryReady} onClick={enterSite}>
-            Entrar <span aria-hidden="true">↗</span>
+            Entrar
           </button>
           <div className="forge-loader-progress" aria-hidden="true">
             <span ref={loaderProgressRef} />
