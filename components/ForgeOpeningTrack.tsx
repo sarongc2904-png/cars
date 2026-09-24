@@ -630,17 +630,19 @@ export function ForgeOpeningTrack() {
           titleWords.forEach((word, index) => {
             const local = staggeredProgress(
               heroTextProgress,
-              titleWords.length - 1 - index,
+              index,
               titleWords.length,
-              0.083,
-              0.667,
+              TITLE_WORD_GAP,
+              TITLE_WORD_REVEAL,
             );
-            const eased = local * local;
 
+            // Same vocabulary as "Cada pieza...": each word scales through the
+            // center, blurs and changes opacity in sequence. Here it runs in
+            // reverse because the hero is leaving while the next phrase enters.
             gsap.set(word, {
-              autoAlpha: 1 - eased,
-              scale: 1 + eased,
-              filter: `blur(${8 * eased}px)`,
+              autoAlpha: 1 - local,
+              scale: 1 - local,
+              filter: `blur(${8 * local}px)`,
             });
           });
 
@@ -908,7 +910,7 @@ export function ForgeOpeningTrack() {
               <br />
               <span className="forge-opening-intro-word">cuando</span>{" "}
               <span className="forge-opening-intro-word">todo</span>{" "}
-              <span className="forge-opening-intro-word">se</span>{" "}
+              <span className="forge-opening-intro-word">funciona</span>{" "}
               <span className="forge-opening-intro-word">en conjunto</span>
             </h2>
           </div>
